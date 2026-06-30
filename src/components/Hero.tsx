@@ -1,4 +1,3 @@
-import { motion } from 'motion/react';
 import laurelLeft from '../assets/laurel-left.svg';
 import laurelRight from '../assets/laurel-right.svg';
 
@@ -46,35 +45,22 @@ export default function Hero() {
 
       <div className="relative z-10 flex w-full max-w-[560px] flex-col items-center justify-start gap-6 px-5 text-center sm:gap-8 sm:px-4">
         <div className="flex w-full flex-col items-center gap-4 sm:gap-5">
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="max-w-[400px] font-sans text-[34px] font-bold leading-[0.96] tracking-[-0.02em] text-white sm:max-w-[520px] sm:text-[46px] md:max-w-[560px] md:text-[52px]"
-          >
+          <h1 className="animate-[hero-rise_0.8s_ease-out_both] max-w-[400px] font-sans text-[34px] font-bold leading-[0.96] tracking-[-0.02em] text-white sm:max-w-[520px] sm:text-[46px] md:max-w-[560px] md:text-[52px]">
             <span>Construim produse digitale de pe alta </span>
             <span className="text-[#3b5ecd]">planeta.</span>
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: 'easeOut' }}
-            className="max-w-[330px] text-center text-[14px] font-normal leading-[20px] tracking-normal text-white/76 sm:max-w-[500px] sm:text-[15px] sm:leading-[21px] md:max-w-[520px] md:text-[16px] md:leading-[22px]"
-          >
+          <p className="animate-[hero-rise_0.8s_ease-out_0.1s_both] max-w-[330px] text-center text-[14px] font-normal leading-[20px] tracking-normal text-white/76 sm:max-w-[500px] sm:text-[15px] sm:leading-[21px] md:max-w-[520px] md:text-[16px] md:leading-[22px]">
             Design premium, dezvoltare frontend, aplicatii web si automatizari custom create pentru companiile care vor mai mult decat o simpla experienta digitala.
-          </motion.p>
+          </p>
         </div>
 
-        <motion.a
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.18, ease: 'easeOut' }}
+        <a
           href="#cta"
-          className="inline-flex h-[52px] w-max items-center justify-center rounded-[12px] bg-white/90 px-7 text-[15px] font-medium leading-[20px] tracking-normal text-black transition-all duration-200 hover:bg-white sm:h-[58px] sm:px-8 sm:text-[16px]"
+          className="animate-[hero-rise_0.8s_ease-out_0.18s_both] inline-flex h-[52px] w-max items-center justify-center rounded-[12px] bg-white/90 px-7 text-[15px] font-medium leading-[20px] tracking-normal text-black transition-all duration-200 hover:bg-white sm:h-[58px] sm:px-8 sm:text-[16px]"
         >
           Cere oferta
-        </motion.a>
+        </a>
       </div>
 
       <div className="absolute bottom-[48px] left-1/2 z-10 flex w-max -translate-x-1/2 items-center justify-center gap-3.5 max-[760px]:flex-col max-[760px]:gap-4 md:bottom-[76px]">

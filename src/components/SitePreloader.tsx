@@ -4,8 +4,8 @@ export default function SitePreloader({ isLeaving }: { isLeaving: boolean }) {
   return (
     <div
       className={[
-        'fixed inset-0 z-[120] flex items-center justify-center overflow-hidden bg-[#0a0d11] transition-all duration-700 ease-out',
-        isLeaving ? 'pointer-events-none opacity-0 blur-sm' : 'opacity-100',
+        'fixed inset-0 z-[120] flex items-center justify-center overflow-hidden bg-[#0a0d11] transition-opacity duration-300 ease-out',
+        isLeaving ? 'pointer-events-none opacity-0' : 'opacity-100',
       ].join(' ')}
       aria-live="polite"
       aria-busy={!isLeaving}

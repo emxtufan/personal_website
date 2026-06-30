@@ -1,11 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import ColorBends from './ColorBends';
-import beautyvillaVideo from "../assets/BeautyVilla.webm";
-import TeamStoicaVideo from "../assets/TeamStoica.webm";
-import invitatii from "../assets/invitatii.webm";
-import xelle from "../assets/xelle.webm";
-import amber from "../assets/amber.webm";
+import amberPoster from '../assets/project-previews/amber-cloud-poster.webp';
+import amberPreview from '../assets/project-previews/amber-cloud-preview.webm';
+import beautyVillaPoster from '../assets/project-previews/beauty-villa-poster.webp';
+import beautyVillaPreview from '../assets/project-previews/beauty-villa-preview.webm';
+import eventSmartPoster from '../assets/project-previews/event-smart-assistant-poster.webp';
+import eventSmartPreview from '../assets/project-previews/event-smart-assistant-preview.webm';
+import teamStoicaPoster from '../assets/project-previews/team-stoica-poster.webp';
+import teamStoicaPreview from '../assets/project-previews/team-stoica-preview.webm';
+import xellePoster from '../assets/project-previews/xelle-poster.webp';
+import xellePreview from '../assets/project-previews/xelle-preview.webm';
 /**
  * Tracks whether an element is currently within (a margin around) the
  * viewport. Used to pause expensive work (ColorBends canvas animation,
@@ -39,6 +44,7 @@ type ProjectCard = {
   name: string;
   link: string;
   mediaSrc: string;
+  posterSrc: string;
   bendRotation: number;
   bendSpeed: number;
   bendScale: number;
@@ -60,7 +66,8 @@ const PROJECTS: ProjectCard[] = [
     title: '',
     name: 'Team Stoica',
     link: 'https://www.teamstoica.ro',
-    mediaSrc: TeamStoicaVideo,
+    mediaSrc: teamStoicaPreview,
+    posterSrc: teamStoicaPoster,
     bendRotation: 125,
     bendSpeed: 0.5,
     bendScale: 0.56,
@@ -80,7 +87,8 @@ const PROJECTS: ProjectCard[] = [
     title: '',
     name: 'Beauty Villa',
     link: 'https://beautyvilla.ro/',
-    mediaSrc: beautyvillaVideo,
+    mediaSrc: beautyVillaPreview,
+    posterSrc: beautyVillaPoster,
     bendRotation: 18,
     bendSpeed: 0.26,
     bendScale: 0.84,
@@ -99,7 +107,8 @@ const PROJECTS: ProjectCard[] = [
     title: '',
     name: 'Event Smart Assistant',
     link: 'https://event-smart-assistant.com',
-    mediaSrc:invitatii,
+    mediaSrc: eventSmartPreview,
+    posterSrc: eventSmartPoster,
     bendRotation: 212,
     bendSpeed: 0.28,
     bendScale: 0.92,
@@ -113,12 +122,13 @@ const PROJECTS: ProjectCard[] = [
       'bg-[radial-gradient(circle_at_14%_92%,rgba(112,234,213,0.22)_0%,rgba(10,13,17,0)_36%)]',
   },
    {
-    id: 'project-03',
-    label: 'PROJECT 03',
+    id: 'project-04',
+    label: 'PROJECT 04',
     title: '',
     name: 'Xelle',
     link: 'https://xelle.ro',
-    mediaSrc:xelle,
+    mediaSrc: xellePreview,
+    posterSrc: xellePoster,
     bendRotation: 212,
     bendSpeed: 0.28,
     bendScale: 0.92,
@@ -130,13 +140,15 @@ const PROJECTS: ProjectCard[] = [
     bendClassName: 'scale-[1.34] opacity-100 -translate-x-[6%] translate-y-[12%]',
     overlayClassName:
       'bg-[radial-gradient(circle_at_14%_92%,rgba(112,234,213,0.22)_0%,rgba(10,13,17,0)_36%)]',
-  }, {
-    id: 'project-04',
-    label: 'PROJECT 04',
+  },
+  {
+    id: 'project-05',
+    label: 'PROJECT 05',
     title: '',
     name: 'Amber Cloud',
     link: 'https://amber-cloud.vip/',
-    mediaSrc:amber,
+    mediaSrc: amberPreview,
+    posterSrc: amberPoster,
     bendRotation: 212,
     bendSpeed: 0.28,
     bendScale: 0.92,
@@ -179,12 +191,14 @@ function MediaSkeleton() {
 /* ------------------------------------------------------------------ */
 function ProjectMedia({
   src,
+  poster,
   title,
-  inView,
+  shouldLoadVideo,
 }: {
   src: string;
+  poster: string;
   title: string;
-  inView: boolean;
+  shouldLoadVideo: boolean;
 }) {
   const [hasError, setHasError] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -193,40 +207,56 @@ function ProjectMedia({
   const isVideo = /\.(mp4|webm|ogg)$/i.test(src);
 
   useEffect(() => {
-    if (inView) {
+    if (shouldLoadVideo) {
       setShouldLoad(true);
     }
-  }, [inView]);
+  }, [shouldLoadVideo]);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    if (inView) {
+    if (shouldLoadVideo) {
       video.play().catch(() => {});
     } else {
       video.pause();
     }
-  }, [inView]);
+  }, [shouldLoadVideo]);
 
   if (!src || hasError) {
-    return <div className="relative aspect-[16/10] w-full overflow-hidden bg-white/[0.03]" />;
+    return (
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-white/[0.03]">
+        <img src={poster} alt={title} loading="lazy" className="h-full w-full object-cover object-top" />
+      </div>
+    );
   }
 
   return (
     <div className="relative aspect-[16/10] w-full overflow-hidden">
-      {!loaded && <MediaSkeleton />}
+      <img
+        src={poster}
+        alt={title}
+        loading="lazy"
+        decoding="async"
+        className={[
+          'absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-500',
+          loaded && shouldLoadVideo ? 'opacity-0' : 'opacity-100',
+        ].join(' ')}
+      />
+
+      {!loaded && shouldLoadVideo && <MediaSkeleton />}
 
       {isVideo ? (
         <video
           ref={videoRef}
           src={shouldLoad ? src : undefined}
+          poster={poster}
           muted
           loop
           playsInline
           preload="none"
           className={[
-            'h-full w-full object-cover object-top transition-opacity duration-500',
-            loaded ? 'opacity-100' : 'opacity-0',
+            'absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-500',
+            loaded && shouldLoadVideo ? 'opacity-100' : 'opacity-0',
           ].join(' ')}
           onLoadedData={() => setLoaded(true)}
           onError={() => setHasError(true)}
@@ -244,72 +274,6 @@ function ProjectMedia({
           onError={() => setHasError(true)}
         />
       )}
-
-      <div className="noise-layer pointer-events-none absolute inset-0 opacity-[0.14]" />
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Featured media: video anchored to the top-right corner, fully       */
-/* visible (no cropping), asymmetric "uniq" frame                      */
-/* ------------------------------------------------------------------ */
-function FeaturedMedia({
-  src,
-  title,
-  inView,
-}: {
-  src: string;
-  title: string;
-  inView: boolean;
-}) {
-  const [hasError, setHasError] = useState(false);
-  const [loaded, setLoaded] = useState(false);
-  const [shouldLoad, setShouldLoad] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (inView) {
-      setShouldLoad(true);
-    }
-  }, [inView]);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (inView) {
-      video.play().catch(() => {});
-    } else {
-      video.pause();
-    }
-  }, [inView]);
-
-  if (!src || hasError) {
-    return <div className="relative aspect-[16/10] w-full overflow-hidden bg-white/[0.03]" />;
-  }
-
-  return (
-    <div className="relative aspect-[16/10] w-full overflow-hidden">
-      {!loaded && <MediaSkeleton />}
-
-      {/* Video sits flush against the bottom and right edges of the box,
-          fully visible (object-contain), nothing cropped on the sides. */}
-      <div className="absolute inset-0 flex items-end justify-end">
-        <video
-          ref={videoRef}
-          src={shouldLoad ? src : undefined}
-          muted
-          loop
-          playsInline
-          preload="none"
-          className={[
-            'h-full w-full object-contain object-right-bottom transition-opacity duration-500',
-            loaded ? 'opacity-100' : 'opacity-0',
-          ].join(' ')}
-          onLoadedData={() => setLoaded(true)}
-          onError={() => setHasError(true)}
-        />
-      </div>
 
       <div className="noise-layer pointer-events-none absolute inset-0 opacity-[0.14]" />
     </div>
@@ -343,6 +307,7 @@ function ProjectCardItem({
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.45, delay: index * 0.08, ease: 'easeOut' }}
       onMouseEnter={onMouseEnter}
+      onFocusCapture={onMouseEnter}
       className={[
         'group relative overflow-hidden border p-5 transition-colors duration-500 sm:p-7',
         isActive
@@ -438,11 +403,12 @@ function ProjectCardItem({
         </div>
 
         <div>
-          {project.featured ? (
-            <ProjectMedia src={project.mediaSrc} title={project.title} inView={inView} />
-          ) : (
-            <ProjectMedia src={project.mediaSrc} title={project.title} inView={inView} />
-          )}
+          <ProjectMedia
+            src={project.mediaSrc}
+            poster={project.posterSrc}
+            title={project.name}
+            shouldLoadVideo={inView && isActive}
+          />
         </div>
       </div>
     </motion.article>

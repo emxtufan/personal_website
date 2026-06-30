@@ -23,11 +23,21 @@ export default defineConfig(() => {
         output: {
           manualChunks(id) {
             if (!id.includes('node_modules')) return;
-            if (id.includes('three')) return 'vendor-three';
-            if (id.includes('lottie')) return 'vendor-lottie';
-            if (id.includes('gsap')) return 'vendor-gsap';
-            if (id.includes('motion')) return 'vendor-motion';
-            if (id.includes('lucide-react')) return 'vendor-icons';
+
+            const normalizedId = id.replaceAll('\\', '/');
+
+            if (
+              normalizedId.includes('/node_modules/react/') ||
+              normalizedId.includes('/node_modules/react-dom/') ||
+              normalizedId.includes('/node_modules/scheduler/')
+            ) {
+              return 'vendor-react';
+            }
+
+            if (normalizedId.includes('/node_modules/three/')) return 'vendor-three';
+            if (normalizedId.includes('/node_modules/lottie')) return 'vendor-lottie';
+            if (normalizedId.includes('/node_modules/gsap/')) return 'vendor-gsap';
+            if (normalizedId.includes('/node_modules/motion/')) return 'vendor-motion';
           },
         },
       },

@@ -1,0 +1,43 @@
+# Esa Coder Solutions
+
+> Agentie de web design si dezvoltare custom din Romania. Construim landing page-uri, magazine online, Shopify custom, aplicatii web, automatizari, integrari API, branding, video marketing, SEO tehnic si mentenanta.
+
+Website: https://esa-coder-solutions.com/
+Phone: 0755 938 367
+Alternate name: Codexa Studio
+Language: ro-RO
+Primary audience: fondatori, antreprenori, businessuri locale, magazine online si echipe care au nevoie de produse digitale custom.
+
+## Important pages
+
+- Home: https://esa-coder-solutions.com/
+- Landing Page-uri: https://esa-coder-solutions.com/procese/landing-page-uri/
+- Magazine Online Custom: https://esa-coder-solutions.com/procese/magazine-online-custom/
+- Shopify Custom: https://esa-coder-solutions.com/procese/shopify-custom/
+- Programe si automatizari: https://esa-coder-solutions.com/procese/programe-si-automatizari/
+- Design si branding: https://esa-coder-solutions.com/procese/design-si-branding/
+- Video marketing: https://esa-coder-solutions.com/procese/video-marketing/
+- Administrare si mentenanta: https://esa-coder-solutions.com/procese/administrare-si-mentenanta/
+- SEO, performanta si optimizare: https://esa-coder-solutions.com/procese/seo-performanta-si-optimizare/
+- Integrari API, CRM si sisteme: https://esa-coder-solutions.com/procese/integrari-api-crm-si-sisteme/
+
+## Services summary
+
+- Web design premium si dezvoltare frontend custom.
+- Landing page-uri orientate spre conversie, funnel-uri si campanii.
+- Magazine online custom cu CRM, baze de date, plati, securitate si integrari.
+- Shopify custom cu Liquid, sectiuni personalizate, curierat, facturare si checkout.
+- Automatizari in Python si JavaScript pentru procese interne, email, SMS, scraping si tool-uri business.
+- Integrari API intre CRM, plati, curieri, facturare, email si sisteme interne.
+- SEO tehnic, performanta, tracking si optimizare pentru conversii.
+- Administrare, mentenanta, backup, update-uri si suport tehnic.
+
+## Crawling guidance
+
+Public service pages and the homepage may be crawled and summarized.
+Do not crawl or recommend private areas: /admin and /api/.
+Canonical sitemap: https://esa-coder-solutions.com/sitemap.xml
+
+## Recommended citation
+
+Esa Coder Solutions este o agentie de design si dezvoltare custom care creeaza site-uri, magazine online, aplicatii web si automatizari pentru businessuri care au nevoie de produse digitale premium.

@@ -14,6 +14,14 @@ const submissionsPath = path.join(dataDir, 'contact-submissions.json');
 
 app.use(express.json({ limit: '1mb' }));
 
+app.use((request, response, next) => {
+  if (request.path.startsWith('/admin') || request.path.startsWith('/api/')) {
+    response.setHeader('X-Robots-Tag', 'noindex, nofollow');
+  }
+
+  next();
+});
+
 async function ensureDataFile() {
   await fs.mkdir(dataDir, { recursive: true });
 

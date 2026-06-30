@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Check, Mail, Send, Terminal } from 'lucide-react';
 import { addContactSubmission } from '../contact-submissions';
+import { CONTACT_PHONE, CONTACT_PHONE_DISPLAY } from '../seo-config';
 
 type LegalModalType = 'privacy' | 'cookies' | 'terms';
 
@@ -189,6 +190,9 @@ export default function Footer() {
         <div className="flex flex-col items-center justify-between gap-4 pt-8 font-mono text-xs text-zinc-500 md:flex-row">
           <div>(c) {new Date().getFullYear()} Esa Coder Solutions. Toate drepturile rezervate.</div>
           <div className="flex items-center gap-6">
+            <a href={`tel:${CONTACT_PHONE}`} className="transition-colors hover:text-white">
+              {CONTACT_PHONE_DISPLAY}
+            </a>
             <a href="#footer" className="transition-colors hover:text-white">
               Facebook
             </a>

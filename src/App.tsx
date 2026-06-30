@@ -5,6 +5,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Navbar from './components/Navbar';
+import SEO from './components/SEO';
 import Hero from './components/Hero';
 import LogoStrip from './components/LogoStrip';
 import Feauturestow from './components/Feauturestow';
@@ -190,6 +191,7 @@ export default function App() {
       id="app-root"
       className="min-h-screen overflow-x-hidden bg-[#0a0d11] text-neutral-200 antialiased selection:bg-[#9fffe7]/20 selection:text-white"
     >
+      <SEO pathname={pathname} activeService={activeService} isAdminPage={isAdminPage} />
       <div className="pointer-events-none fixed inset-0 bg-[linear-gradient(180deg,rgba(10,13,17,0.10)_0%,#0a0d11_100%)]" />
       <div className="noise-layer pointer-events-none fixed inset-0 z-40" />
 

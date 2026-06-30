@@ -3,7 +3,7 @@ import { FAQS } from '../data';
 import { ChevronDown, HelpCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
-export default function FAQ() {
+export default function FAQ({ sectionId = 'faq' }: { sectionId?: string | null }) {
   const [openId, setOpenId] = useState<string | null>(null);
 
   const toggleFaq = (id: string) => {
@@ -11,7 +11,7 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="relative overflow-hidden">
+    <section id={sectionId ?? undefined} className="relative overflow-hidden">
       <div className="absolute top-1/3 right-1/3 w-[400px] h-[400px] bg-white/[0.01] rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

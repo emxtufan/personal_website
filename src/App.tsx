@@ -3,26 +3,58 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Navbar from './components/Navbar';
 import SEO from './components/SEO';
 import Hero from './components/Hero';
-import LogoStrip from './components/LogoStrip';
-import Feauturestow from './components/Feauturestow';
-import ProjectsShowcase from './components/ProjectsShowcase';
-import HowItWorks from './components/HowItWorks';
-import InteractivePlayground from './components/InteractivePlayground';
-import Pricing from './components/Pricing';
-import Testimonials from './components/Testimonials';
-import FAQ from './components/FAQ';
-import CTA from './components/CTA';
 import Footer from './components/Footer';
 import LegalModals from './components/LegalModals';
-import WhyChooseMe from './components/WhyChooseMe';
-import ProcessSection from './components/ProcessSection';
-import ServiceProcessPage from './components/ServiceProcessPage';
-import AdminPanel from './components/AdminPanel';
+import LazySection from './components/LazySection';
+import SitePreloader from './components/SitePreloader';
 import { getServiceProcessBySlug } from './service-processes';
+
+const loadFeauturestow = () => import('./components/Feauturestow');
+const loadLogoStrip = () => import('./components/LogoStrip');
+const loadProjectsShowcase = () => import('./components/ProjectsShowcase');
+const loadWhyChooseMe = () => import('./components/WhyChooseMe');
+const loadProcessSection = () => import('./components/ProcessSection');
+const loadPricing = () => import('./components/Pricing');
+const loadCTA = () => import('./components/CTA');
+const loadFAQ = () => import('./components/FAQ');
+const loadServiceProcessPage = () => import('./components/ServiceProcessPage');
+const loadAdminPanel = () => import('./components/AdminPanel');
+
+const Feauturestow = lazy(loadFeauturestow);
+const LogoStrip = lazy(loadLogoStrip);
+const ProjectsShowcase = lazy(loadProjectsShowcase);
+const WhyChooseMe = lazy(loadWhyChooseMe);
+const ProcessSection = lazy(loadProcessSection);
+const Pricing = lazy(loadPricing);
+const CTA = lazy(loadCTA);
+const FAQ = lazy(loadFAQ);
+const ServiceProcessPage = lazy(loadServiceProcessPage);
+const AdminPanel = lazy(loadAdminPanel);
+
+const homeSectionLoaders = [
+  loadFeauturestow,
+  loadLogoStrip,
+  loadProjectsShowcase,
+  loadWhyChooseMe,
+  loadProcessSection,
+  loadPricing,
+  loadCTA,
+  loadFAQ,
+];
+
+let homeSectionsPreloadPromise: Promise<PromiseSettledResult<unknown>[]> | null = null;
+
+function preloadHomeSections() {
+  homeSectionsPreloadPromise ??= Promise.allSettled(
+    homeSectionLoaders.map((loadSection) => loadSection()),
+  );
+
+  return homeSectionsPreloadPromise;
+}
 
 function getCurrentPath() {
   if (typeof window === 'undefined') return '/';
@@ -38,6 +70,9 @@ type AppHistoryState = {
 
 export default function App() {
   const [pathname, setPathname] = useState(getCurrentPath);
+  const [showPreloader, setShowPreloader] = useState(() => getCurrentPath() === '/');
+  const [homeSectionsReady, setHomeSectionsReady] = useState(() => getCurrentPath() !== '/');
+  const [preloaderLeaving, setPreloaderLeaving] = useState(false);
   const pendingScrollRestoreRef = useRef<number | null>(null);
 
   const restoreScroll = useCallback((scrollY: number) => {
@@ -82,6 +117,50 @@ export default function App() {
       window.removeEventListener('popstate', onPopState);
     };
   }, []);
+
+  useEffect(() => {
+    if (!showPreloader) return;
+
+    document.body.style.overflow = 'hidden';
+
+    let cancelled = false;
+    let loadHandler: (() => void) | undefined;
+    let leaveTimeout: number | undefined;
+    let removeTimeout: number | undefined;
+
+    const finishPreload = () => {
+      leaveTimeout = window.setTimeout(() => {
+        setPreloaderLeaving(true);
+        removeTimeout = window.setTimeout(() => {
+          setShowPreloader(false);
+          document.body.style.overflow = '';
+        }, 720);
+      }, 650);
+    };
+
+    const waitForWindowLoad =
+      document.readyState === 'complete'
+        ? Promise.resolve()
+        : new Promise<void>((resolve) => {
+            loadHandler = () => resolve();
+            window.addEventListener('load', loadHandler, { once: true });
+          });
+
+    void Promise.allSettled([waitForWindowLoad, preloadHomeSections()]).then(() => {
+      if (cancelled) return;
+
+      setHomeSectionsReady(true);
+      finishPreload();
+    });
+
+    return () => {
+      cancelled = true;
+      if (loadHandler) window.removeEventListener('load', loadHandler);
+      if (leaveTimeout) window.clearTimeout(leaveTimeout);
+      if (removeTimeout) window.clearTimeout(removeTimeout);
+      document.body.style.overflow = '';
+    };
+  }, [showPreloader]);
 
   useEffect(() => {
     const currentState = window.history.state as AppHistoryState | null;
@@ -192,6 +271,7 @@ export default function App() {
       className="min-h-screen overflow-x-hidden bg-[#0a0d11] text-neutral-200 antialiased selection:bg-[#9fffe7]/20 selection:text-white"
     >
       <SEO pathname={pathname} activeService={activeService} isAdminPage={isAdminPage} />
+      {showPreloader && <SitePreloader isLeaving={preloaderLeaving} />}
       <div className="pointer-events-none fixed inset-0 bg-[linear-gradient(180deg,rgba(10,13,17,0.10)_0%,#0a0d11_100%)]" />
       <div className="noise-layer pointer-events-none fixed inset-0 z-40" />
 
@@ -200,30 +280,41 @@ export default function App() {
           {!activeService && !isAdminPage && <Navbar />}
 
           <main className="relative z-10">
-            {isAdminPage ? (
-              <AdminPanel onBack={goHome} />
-            ) : activeService ? (
-              <ServiceProcessPage service={activeService} onBack={goBackFromService} />
-            ) : (
-              <>
-                <Hero />
-                <Feauturestow />
-                <LogoStrip />
-                <ProjectsShowcase />
-                <WhyChooseMe />
-                <ProcessSection onOpenService={openService} />
-                <Pricing />
-                 {/* <InteractivePlayground /> */}
-                <CTA />
-                <FAQ />
-                {/* <Testimonials /> */}
-                {/* <HowItWorks /> */}
-                {/*
-               
-                
-                */}
-              </>
-            )}
+            <Suspense fallback={null}>
+              {isAdminPage ? (
+                <AdminPanel onBack={goHome} />
+              ) : activeService ? (
+                <ServiceProcessPage service={activeService} onBack={goBackFromService} />
+              ) : (
+                <>
+                  <Hero />
+                  <LazySection id="features" minHeight={820} rootMargin="1400px 0px" eager={homeSectionsReady}>
+                    <Feauturestow sectionId={null} />
+                  </LazySection>
+                  <LazySection id="logos" minHeight={170} rootMargin="1400px 0px" eager={homeSectionsReady}>
+                    <LogoStrip sectionId={null} />
+                  </LazySection>
+                  <LazySection id="projects" minHeight={920} rootMargin="1400px 0px" eager={homeSectionsReady}>
+                    <ProjectsShowcase sectionId={null} />
+                  </LazySection>
+                  <LazySection id="why-choose" minHeight={780} rootMargin="1400px 0px" eager={homeSectionsReady}>
+                    <WhyChooseMe sectionId={null} />
+                  </LazySection>
+                  <LazySection id="process" minHeight={1050} rootMargin="1400px 0px" eager={homeSectionsReady}>
+                    <ProcessSection sectionId={null} onOpenService={openService} />
+                  </LazySection>
+                  <LazySection id="pricing" minHeight={820} rootMargin="1400px 0px" eager={homeSectionsReady}>
+                    <Pricing sectionId={null} />
+                  </LazySection>
+                  <LazySection id="cta" minHeight={680} rootMargin="1400px 0px" eager={homeSectionsReady}>
+                    <CTA sectionId={null} />
+                  </LazySection>
+                  <LazySection id="faq" minHeight={760} rootMargin="1400px 0px" eager={homeSectionsReady}>
+                    <FAQ sectionId={null} />
+                  </LazySection>
+                </>
+              )}
+            </Suspense>
           </main>
 
           <Footer />

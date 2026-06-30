@@ -1,7 +1,8 @@
 import { motion } from 'motion/react';
-import questHeroBg from '../assets/quest-hero-bg.png';
 import laurelLeft from '../assets/laurel-left.svg';
 import laurelRight from '../assets/laurel-right.svg';
+
+const questHeroBg = '/quest-hero-bg.webp';
 
 const stats = [
   ['Over 10+ years as', 'industry leader'],
@@ -34,6 +35,10 @@ export default function Hero() {
           src={questHeroBg}
           alt=""
           aria-hidden="true"
+          width={1920}
+          height={1126}
+          fetchPriority="high"
+          decoding="async"
           className="absolute inset-0 block h-full w-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,13,17,0.10)_0%,#0a0d11_100%)]" />

@@ -309,7 +309,7 @@ const CARDS: CardSpec[] = [
   },
 ];
 
-export default function Feauturestow() {
+export default function Feauturestow({ sectionId = 'features' }: { sectionId?: string | null }) {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -321,7 +321,7 @@ export default function Feauturestow() {
   }, []);
 
   return (
-    <section id="features" className="relative w-full overflow-hidden px-6 py-20">
+    <section id={sectionId ?? undefined} className="relative w-full overflow-hidden px-6 py-20">
       <style>{`
         @keyframes dg-sweep {
           0% { background-position: 0% 0%; }

@@ -113,7 +113,20 @@ app.delete('/api/contact-submissions', async (_request, response) => {
   response.json([]);
 });
 
-app.use(express.static(distDir));
+app.use(
+  express.static(distDir, {
+    setHeaders(response, filePath) {
+      if (filePath.endsWith('index.html')) {
+        response.setHeader('Cache-Control', 'no-cache');
+        return;
+      }
+
+      if (/\.(?:js|css|png|jpe?g|webp|avif|svg|webm|mp4|woff2?)$/i.test(filePath)) {
+        response.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      }
+    },
+  }),
+);
 
 app.get('*', (_request, response) => {
   response.sendFile(path.join(distDir, 'index.html'));

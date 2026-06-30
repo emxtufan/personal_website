@@ -26,7 +26,6 @@ export default function Navbar() {
           href="#hero"
           onClick={closeMenu}
           className="group flex min-w-0 items-center gap-3"
-          aria-label="Esa Coder Solutions"
         >
           <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-white/12 bg-white/[0.035] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition duration-200 group-hover:border-white/28">
             <Terminal className="h-4.5 w-4.5" />

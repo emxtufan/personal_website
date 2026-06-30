@@ -14,9 +14,9 @@ const logos = [
 
 
 
-export default function LogoStrip() {
+export default function LogoStrip({ sectionId = 'logos' }: { sectionId?: string | null }) {
   return (
-    <section className="logo-strip" id="logos" aria-label="Partner logos">
+    <section className="logo-strip" id={sectionId ?? undefined} aria-label="Partner logos">
       <DecryptedText
         text="Tehnologii pe care le folosim"
         speed={40}
@@ -30,7 +30,7 @@ export default function LogoStrip() {
       <div className="logo-track">
         {[...logos, ...logos].map((logo, index) => (
           <div className="logo-item" key={`${logo}-${index}`}>
-            <img src={logo} alt="" loading="lazy" />
+            <img src={logo} alt="" loading="lazy" decoding="async" width={150} height={60} />
           </div>
         ))}
       </div>

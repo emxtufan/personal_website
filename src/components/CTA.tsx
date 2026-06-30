@@ -18,7 +18,7 @@ function openLegalModal(modal: LegalModalType) {
   window.dispatchEvent(new CustomEvent(LEGAL_MODAL_EVENT, { detail: modal }));
 }
 
-export default function CTA() {
+export default function CTA({ sectionId = 'cta' }: { sectionId?: string | null }) {
   const [form, setForm] = useState(initialForm);
   const [showPopup, setShowPopup] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -56,7 +56,7 @@ export default function CTA() {
   };
 
   return (
-    <section id="cta" className="relative overflow-hidden py-24">
+    <section id={sectionId ?? undefined} className="relative overflow-hidden py-24">
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.01] blur-[100px]" />
 
       <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">

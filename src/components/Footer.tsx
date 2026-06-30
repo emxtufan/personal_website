@@ -110,10 +110,10 @@ export default function Footer() {
 
           <div className="flex flex-col gap-4 lg:col-span-7">
             <div>
-              <h4 className="mb-1 flex items-center gap-2 font-sans text-sm font-semibold text-white">
+              <p className="mb-1 flex items-center gap-2 font-sans text-sm font-semibold text-white">
                 <Mail className="h-4 w-4 text-white" />
                 Ramai la curent cu noutatile
-              </h4>
+              </p>
               <p className="text-xs font-light text-zinc-500">
                 Aboneaza-te pentru idei despre conversii, design, magazine online si optimizare tehnica.
               </p>
@@ -160,7 +160,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-8 py-16 md:grid-cols-4">
           {footerLinks.map((group) => (
             <div key={group.title} className="flex flex-col gap-4">
-              <h5 className="font-mono text-xs font-bold uppercase tracking-wider text-zinc-500">{group.title}</h5>
+              <p className="font-mono text-xs font-bold uppercase tracking-wider text-zinc-500">{group.title}</p>
               <ul className="flex flex-col gap-2.5">
                 {group.links.map((link) => (
                   <li key={`${group.title}-${link.name}`}>

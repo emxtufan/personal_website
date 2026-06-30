@@ -11,10 +11,10 @@ const handleAnimationComplete = () => {
 
 
 const AVATARS = [
-  'https://framerusercontent.com/images/7n35wdG8jtT2LMgYCpqeBkSo6s.jpg?width=200&height=200',
-  'https://framerusercontent.com/images/s45yKcA8Ca8Yoakc4y2MawGRx0.jpg?width=200&height=200',
-  'https://framerusercontent.com/images/S9PyleA1z5ugBA2Z87N0r7h5VA.jpg?width=200&height=200',
-  'https://framerusercontent.com/images/nFTyhTg9mtSiD0Oh51DGHixETM.jpg?width=200&height=200',
+  'https://res.cloudinary.com/duymfuehu/image/upload/v1782858655/images_cjswos.jpg',
+  'https://res.cloudinary.com/duymfuehu/image/upload/v1782858670/images_vmuqpr.webp',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4ivsyZktzivPvb79tCI29vWyyjvcIcf74V3Apogh_38nr0x0Jm9Ikt3CWThfuVIlLV1S3DMqDszh15seQTNe_AehUad_mo2a6dLQM8MA&s=10',
+  'https://res.cloudinary.com/duymfuehu/image/upload/v1782858693/nFTyhTg9mtSiD0Oh51DGHixETM_pltt92.jpg',
 ];
 
 const INSIGHT_MESSAGES = [
@@ -41,7 +41,7 @@ function StarIcon() {
   );
 }
 
-export default function WhyChooseMe() {
+export default function WhyChooseMe({ sectionId = 'why-choose' }: { sectionId?: string | null }) {
   const [activeInsight, setActiveInsight] = useState(0);
 
   useEffect(() => {
@@ -54,15 +54,9 @@ export default function WhyChooseMe() {
 
   return (
     <section
-      id="why-choose"
+      id={sectionId ?? undefined}
       className="w-full px-6 py-20 sm:py-24"
-      style={{ fontFamily: "'Instrument Sans', sans-serif" }}
     >
-      {/* Self-contained font import so the component works as a drop-in */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=Lora:wght@600&display=swap');
-      `}</style>
-
       <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-12 sm:gap-16">
         {/* Section header */}
         <div className="flex flex-col items-start justify-end gap-8 sm:flex-row sm:items-end sm:justify-between">
@@ -85,6 +79,7 @@ export default function WhyChooseMe() {
               threshold={0.1}
               rootMargin="-100px"
               textAlign="left"
+              tag="h2"
               onLetterAnimationComplete={handleAnimationComplete}
             />
           </div>
@@ -148,7 +143,6 @@ export default function WhyChooseMe() {
                 <div className="flex flex-col gap-1">
                   <span
                     className="text-[56px] font-semibold leading-[64px] tracking-[-0.02em]"
-                    style={{ fontFamily: "'Lora', serif" }}
                   >
                     <CountUp
                       from={0}
@@ -181,7 +175,6 @@ export default function WhyChooseMe() {
                 <div className="flex flex-col gap-1">
                   <span
                     className="text-[56px] font-semibold leading-[64px] tracking-[-0.02em] "
-                    style={{ fontFamily: "'Lora', serif" }}
                   >
                     <CountUp
                       from={0}
@@ -248,7 +241,6 @@ export default function WhyChooseMe() {
             <div className="flex items-end justify-start gap-4">
               <span
                 className="text-[44px] font-semibold leading-[1] tracking-[-0.02em] text-white sm:text-[56px] sm:leading-[64px]"
-                style={{ fontFamily: "'Lora', serif" }}
               >
                 <CountUp
                   from={0}

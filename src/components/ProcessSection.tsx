@@ -262,11 +262,13 @@ function ServiceCard({
 
 export default function ProcessSection({
   onOpenService,
+  sectionId = 'process',
 }: {
   onOpenService: (slug: string) => void;
+  sectionId?: string | null;
 }) {
   return (
-    <section id="process" className="relative w-full overflow-hidden px-6 py-10">
+    <section id={sectionId ?? undefined} className="relative w-full overflow-hidden px-6 py-10">
       <div className="relative mx-auto flex w-full max-w-[1280px] flex-col gap-10">
         <div className="flex max-w-[760px] flex-col items-start gap-3">
           <motion.div

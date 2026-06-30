@@ -3,11 +3,11 @@ import { PRICING_PLANS } from '../data';
 import { Check, ArrowRight, Sparkles } from 'lucide-react';
 import { motion } from 'motion/react';
 
-export default function Pricing() {
+export default function Pricing({ sectionId = 'pricing' }: { sectionId?: string | null }) {
   const [isAnnual, setIsAnnual] = useState(true);
 
   return (
-    <section id="pricing" className="py-15 relative overflow-hidden">
+    <section id={sectionId ?? undefined} className="py-15 relative overflow-hidden">
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-white/[0.01] rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

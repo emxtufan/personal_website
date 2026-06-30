@@ -188,8 +188,16 @@ function ProjectMedia({
 }) {
   const [hasError, setHasError] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const isVideo = /\.(mp4|webm|ogg)$/i.test(src);
+
+  useEffect(() => {
+    if (inView) {
+      setShouldLoad(true);
+    }
+  }, [inView]);
+
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -211,11 +219,11 @@ function ProjectMedia({
       {isVideo ? (
         <video
           ref={videoRef}
-          src={src}
+          src={shouldLoad ? src : undefined}
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="none"
           className={[
             'h-full w-full object-cover object-top transition-opacity duration-500',
             loaded ? 'opacity-100' : 'opacity-0',
@@ -257,7 +265,14 @@ function FeaturedMedia({
 }) {
   const [hasError, setHasError] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (inView) {
+      setShouldLoad(true);
+    }
+  }, [inView]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -282,11 +297,11 @@ function FeaturedMedia({
       <div className="absolute inset-0 flex items-end justify-end">
         <video
           ref={videoRef}
-          src={src}
+          src={shouldLoad ? src : undefined}
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="none"
           className={[
             'h-full w-full object-contain object-right-bottom transition-opacity duration-500',
             loaded ? 'opacity-100' : 'opacity-0',
@@ -434,11 +449,11 @@ function ProjectCardItem({
   );
 }
 
-export default function ProjectsShowcase() {
+export default function ProjectsShowcase({ sectionId = 'projects' }: { sectionId?: string | null }) {
   const [active, setActive] = useState(0);
 
   return (
-    <section id="projects" className="relative w-full overflow-hidden px-6 py-20">
+    <section id={sectionId ?? undefined} className="relative w-full overflow-hidden px-6 py-20">
       <style>{`
         @keyframes dg-project-sweep {
           0% { background-position: 0% 0%; }

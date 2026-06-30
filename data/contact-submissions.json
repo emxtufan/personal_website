@@ -1,0 +1,20 @@
+[
+  {
+    "id": "0c7958c9-fe3c-4991-915e-569f5edbe4b3",
+    "createdAt": "2026-06-30T15:00:43.246Z",
+    "name": "Abonare newsletter",
+    "email": "eeee@gmail.com",
+    "phone": "-",
+    "need": "Utilizatorul s-a abonat la newsletter din footer.",
+    "status": "new"
+  },
+  {
+    "id": "79456e84-8d0d-482c-b71a-318bb87b2502",
+    "createdAt": "2026-06-30T14:56:19.411Z",
+    "name": "EEE",
+    "email": "wqdwqdqwd@gmail.com",
+    "phone": "23234324324",
+    "need": "dwqdqw",
+    "status": "new"
+  }
+]
